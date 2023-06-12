@@ -1,0 +1,11 @@
+variable "aws_region" {}
+variable "cluster_name" {}
+variable "image_name" {}
+variable "project_name" {}
+variable "container_name" {}
+variable "image_tag" {}
+variable "container_cpu" {}
+variable "container_mem" {}
+variable "container_port" {}
+variable "DOCKER_USERNAME" {}
+variable "DOCKER_PASSWORD" {}
