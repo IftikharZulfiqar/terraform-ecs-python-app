@@ -1,9 +1,54 @@
-# terraform-ecs-python-app
+# terraform-ecs-python-app 🐍🚀  
+End-to-end demo that packages a containerised **Flask API** and deploys it to AWS **ECS Fargate** behind an Application Load Balancer – everything defined with **Terraform**.
 
-I have utilized Terraform, an Infrastructure as Code (IaC) tool, to build the project. The repository comprises two folders: "Python_App" and "Infra".
+[![Terraform CI](https://img.shields.io/github/actions/workflow/status/IftikharZulfiqar/terraform-ecs-python-app/terraform-ci.yml?label=Terraform%20CI)](../../actions)
+[![Docker Image](https://img.shields.io/docker/pulls/<docker-hub-user>/python-app?label=Docker%20Hub)](https://hub.docker.com/r/<docker-hub-user>/python-app)
+[![Licence](https://img.shields.io/github/license/IftikharZulfiqar/terraform-ecs-python-app)](LICENSE)
+[![Last commit](https://img.shields.io/github/last-commit/IftikharZulfiqar/terraform-ecs-python-app)](../../commits)
 
-In the "Python_App" folder, you will find the Python application along with its Dockerfile. The Docker image has been uploaded to my Docker Hub account for easy accessibility.
+---
 
-On the other hand, the "Infra" folder contains the Terraform code responsible for provisioning essential infrastructure components. This includes the ECS cluster, service, task definition, load balancer (equipped with a single listener and target group), and two security groups (one for the load balancer and the other for ECS tasks). To ensure modularity and flexibility, I have adhered to best practices by utilizing variables within the Terraform code.
+## ✨ Features
+| Layer | Highlights |
+|-------|------------|
+| **Python App** | Flask demo API <br> Multi-stage Dockerfile (slim Py 3.12) |
+| **Terraform Infra** | VPC, subnets, IGW <br> ECS cluster (Fargate) <br> Task definition & service <br> ALB + listener + target group <br> SGs for ALB & tasks |
+| **IaC best practice** | Remote state ready, version-locked providers, variables / locals / outputs, pre-commit hooks |
+| **CI/CD ready** | Sample GitHub Actions workflow for `fmt → validate → plan → apply` |
 
-With the help of Terraform, I have automated the deployment process, guaranteeing consistent and replicable setups of the ECS cluster and related resources.
+---
+
+## 📂 Repo structure
+. ├── Infra/ │ ├── main.tf │ ├── variables.tf │ ├── outputs.tf │ └── modules/ │ ├── network/ │ └── ecs/ └── Python_App/ ├── app/ ├── Dockerfile └── requirements.txt
+
+---
+
+## 🏗️ Prerequisites
+| Tool      | Minimum |
+|-----------|---------|
+| Terraform | 1.6.x |
+| AWS CLI   | 2.x (configured) |
+| Docker    | 24.x |
+| Python    | 3.12 (local dev only) |
+
+---
+
+## 🚀 Quick start
+
+### 1 — Build & push the image
+```bash
+cd Python_App
+docker build -t <docker-hub-user>/python-app:latest .
+docker push <docker-hub-user>/python-app:latest
+
+2 — Provision the infrastructure
+
+cd Infra
+terraform init
+terraform validate
+terraform plan -out tfplan
+terraform apply tfplan
+
+3 — Tear down
+terraform destroy
+
